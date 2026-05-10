@@ -1,0 +1,40 @@
+$OutputDir = "$env:USERPROFILE\Documents\network-monitor-logs"
+$LogFile = Join-Path $OutputDir ("network_usage_" + (Get-Date -Format "yyyyMMdd_HHmmss") + ".csv")
+
+New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
+
+"Timestamp,Interface,BytesReceivedPerSec,BytesSentPerSec" | Out-File -FilePath $LogFile -Encoding utf8
+
+$EndTime = (Get-Date).AddHours(1)
+
+while ((Get-Date) -lt $EndTime) {
+    $Counters = Get-Counter '\Network Interface(*)\Bytes Received/sec','\Network Interface(*)\Bytes Sent/sec'
+
+    $Received = @{}
+    $Sent = @{}
+
+    foreach ($Sample in $Counters.CounterSamples) {
+        $Path = $Sample.Path
+        $Value = [math]::Round($Sample.CookedValue, 2)
+
+        if ($Path -match '\\network interface\((.+)\)\\bytes received/sec') {
+            $Received[$matches[1]] = $Value
+        }
+
+        if ($Path -match '\\network interface\((.+)\)\\bytes sent/sec') {
+            $Sent[$matches[1]] = $Value
+        }
+    }
+
+    foreach ($Interface in $Received.Keys) {
+        $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $Rx = $Received[$Interface]
+        $Tx = if ($Sent.ContainsKey($Interface)) { $Sent[$Interface] } else { 0 }
+
+        "$Timestamp,""$Interface"",$Rx,$Tx" | Out-File -FilePath $LogFile -Append -Encoding utf8
+    }
+
+    Start-Sleep -Seconds 5
+}
+
+Write-Output "Network monitoring complete. Log saved to: $LogFile"
