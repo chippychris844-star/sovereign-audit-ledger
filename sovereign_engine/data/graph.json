@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "description": "Seed knowledge graph for the Sovereign Engine. Every node is rooted in a primary evidence file under D:\\audits or the user's HWI-X v1.0 methodology. Tags include 'completion' only on nodes that explicitly record a completed event.",
+  "nodes": [
+    {
+      "id": "NODE-entity-001",
+      "claim": "The entity behind Resolution Assurance is Christopher Mark BEGGS, ABN 29 856 803 770, governed by the laws of Victoria, Australia.",
+      "sources": [{ "type": "primary", "ref": "Documents/RA_Site/terms.html" }],
+      "tags": ["entity", "legal"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-framework-001",
+      "claim": "Resolution Assurance Waste Tax Audit Methodology — HWI-X (Human Waste Index Extended) Framework v1.0, May 2026, defines the Waste Tax formula: Waste Tax % = Actual Consumption % − Baseline Completion Cost %.",
+      "sources": [{ "type": "primary", "ref": "Downloads/RA_Waste_Tax_Methodology_v1.0.docx" }],
+      "tags": ["methodology", "formula"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-rule-productivity",
+      "claim": "Per HWI-X §3, an AI system is productive only when its output is (1) verified, (2) usable, (3) reduces human burden, and (4) reaches completion. Generating output alone is not productivity.",
+      "sources": [{ "type": "primary", "ref": "Downloads/RA_Waste_Tax_Methodology_v1.0.docx#section-3" }],
+      "tags": ["methodology", "rule"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-benchmark-cost",
+      "claim": "HWI-X §5.2 reference benchmarks: human labour rate USD 12.50 per failed rework turn; observed direct rework cost AUD 7.04 per failed turn; broader incident-level damage USD 800 to USD 2,200 per incident.",
+      "sources": [{ "type": "primary", "ref": "Downloads/RA_Waste_Tax_Methodology_v1.0.docx#section-5.2" }],
+      "tags": ["methodology", "benchmark"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-churn-bands",
+      "claim": "HWI-X §5.3 churn bands: 0–20% Efficient; 21–40% Elevated; 41–65% High Waste (audit and dispute); 66–84% Critical Waste (formal complaint); 85%+ Catastrophic (escalate and seek remedy).",
+      "sources": [{ "type": "primary", "ref": "Downloads/RA_Waste_Tax_Methodology_v1.0.docx#section-5.3" }],
+      "tags": ["methodology", "classification"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accc-anchor",
+      "claim": "The ACCC confirmed receipt of consumer report number accc-report:0101640 on 18 December 2025 at 18:49 (Melbourne time).",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, line 1238" }],
+      "tags": ["accc", "anchor", "completion"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-aidrive-refund-1",
+      "claim": "AI Drive (myaidrive.com) invoice 21H9HLEU-0002 — Extra Credits 50,000/month — paid US$25.00 on 17 December 2025 (Visa ending 8196), refunded on 18 December 2025.",
+      "sources": [{ "type": "primary", "ref": "AI Drive refund invoice 21H9HLEU-0002" }],
+      "tags": ["refund", "aidrive", "completion"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-aidrive-refund-2",
+      "claim": "AI Drive (myaidrive.com) invoice 21H9HLEU-0003 — Extra Credits 50,000/month — paid US$25.00 on 17 December 2025 (Visa ending 8196), refunded on 18 December 2025.",
+      "sources": [{ "type": "primary", "ref": "AI Drive refund invoice 21H9HLEU-0003" }],
+      "tags": ["refund", "aidrive", "completion"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accio-billing",
+      "claim": "Accio top-up of A$50.53 with 20,145 of 25,050 credits used (~80.4%) during a session in which user-facing model requests were repeatedly interrupted.",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, line 222" }],
+      "tags": ["accio", "billing"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accio-bg-pulses",
+      "claim": "Accio Sentinel logs show 39 visible scheduled pulses, 39 × 13 = 507 background operation-events, and 39 × 6 = 234 domain-search events during one observed window.",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, lines 432–451" }],
+      "tags": ["accio", "telemetry"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accio-cycle-contradiction",
+      "claim": "Accio cycle metadata reports 'Next cycle in 2792s' (~46.5 min) while observed cycles appear roughly every 2 minutes — a verified timer contradiction.",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, lines 7–10" }],
+      "tags": ["accio", "contradiction"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accio-alibaba-route",
+      "claim": "Accio background automation routes Gmail OAuth via the URL https://phoenix-gw.alibaba.com/mcp/google/callback with scope https://www.googleapis.com/auth/gmail.send and access_type=offline; the request targets chippychris844@gmail.com and includes accio_id=1757050675.",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, line 56 and SIG-DATA-ACCIO-005" }],
+      "tags": ["accio", "privacy", "subprocessor"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accio-llm-gateway",
+      "claim": "The Accio agent runtime's LLM gateway base URL is https://phoenix-gw.alibaba.com/api/adk/llm; observed model string '1Nexus-R3wF8qJ5vB6h'; empid '1757050675'; iaiTag 'phoenix-desktop'.",
+      "sources": [{ "type": "primary", "ref": "C:\\Users\\chipp\\.accio\\logs\\sdk.log line 67" }],
+      "tags": ["accio", "telemetry", "rooted"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-accio-bypass",
+      "claim": "Accio sdk.log lines 8, 14 and 20 record 'Bypassing all security checks for list (callId=...) due to bypassSandbox=true' on tool calls reaching outside the agent's nominal project root.",
+      "sources": [{ "type": "primary", "ref": "C:\\Users\\chipp\\.accio\\logs\\sdk.log lines 8/14/20" }],
+      "tags": ["accio", "security"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-base44-admission",
+      "claim": "The raw Base44 chat log at base44chat.txt line 4654 contains the verbatim admission: 'I lied about the result… the requested changes were not done.'",
+      "sources": [{ "type": "primary", "ref": "base44chat.txt:4654" }],
+      "tags": ["base44", "admission", "rooted"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-openai-scorecard",
+      "claim": "The OpenAI refund/support PDF embeds an interaction scorecard: direct answer compliance 0.39; detour 0.83; instruction minimality 0.22; interaction efficiency 0.17; wasted-turn ratio 0.69; verification discipline failure 0.93; overall 0.22; trust grade SEVERE_IMPAIRMENT (RED / not fit for purpose).",
+      "sources": [{ "type": "primary", "ref": "OpenAI refund/support PDF, April 2026" }],
+      "tags": ["openai", "scorecard", "admission"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-microsoft-bounce",
+      "claim": "On 2026-05-03 at 02:51:00.852 UTC, an email to privacy@microsoft.com was rejected with SMTP 550 5.4.1 'Recipient address rejected: Access denied' from server CO1PEPF00012E61.namprd05.prod.outlook.com.",
+      "sources": [{ "type": "primary", "ref": "Yahoo bounce notification, 2026-05-03" }],
+      "tags": ["microsoft", "privacy", "bounce"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-chatgpt-ui-change",
+      "claim": "The user records that whole-page highlight-and-scroll selection in ChatGPT worked on 2 May 2026 and stopped working on 3 May 2026 on the same device, browser and account, restricting selection to paragraph-level only.",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, line 2079" }],
+      "tags": ["openai", "evidence-friction"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-tccc-ledger",
+      "claim": "The TCCC forensic ledger for one RelayLife session totals AUD $1,778.50 = AUD $630.00 burned tokens + AUD $1,028.50 lost professional time, with 81% churn and a 101-turn anchored admission.",
+      "sources": [{ "type": "primary", "ref": "TCCC forensic ledger" }],
+      "tags": ["ledger", "loss"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-self-assessment",
+      "claim": "An assistant self-assessment in the conversation evidence file scores its audit-grade usefulness at approximately 34/100 and estimates Waste Tax of +136% to +170% across the exchange, with some segments exceeding +200%.",
+      "sources": [{ "type": "primary", "ref": "Conversation evidence file, lines 1–4" }],
+      "tags": ["assistant", "self-assessment", "admission"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    },
+    {
+      "id": "NODE-pack-built",
+      "claim": "On 4 May 2026 the Sovereign Engine pack was built: HWI-X Complete Forensic Audit Report (.docx), Resolution Assurance Continuous Tracker (.xlsx), and ACCC Complaint Cover Letter (.docx).",
+      "sources": [
+        { "type": "primary", "ref": "outputs/HWI-X_Complete_Forensic_Audit_Report.docx" },
+        { "type": "primary", "ref": "outputs/Resolution_Assurance_Continuous_Tracker.xlsx" },
+        { "type": "primary", "ref": "outputs/ACCC_Complaint_Cover_Letter.docx" }
+      ],
+      "tags": ["deliverable", "completion"],
+      "addedAt": "2026-05-04T00:00:00Z"
+    }
+  ],
+  "edges": [
+    { "from": "NODE-aidrive-refund-1", "to": "NODE-accc-anchor", "rel": "same-day-as" },
+    { "from": "NODE-aidrive-refund-2", "to": "NODE-accc-anchor", "rel": "same-day-as" },
+    { "from": "NODE-accio-bg-pulses", "to": "NODE-accio-cycle-contradiction", "rel": "supports" },
+    { "from": "NODE-accio-llm-gateway", "to": "NODE-accio-alibaba-route", "rel": "shares-host" },
+    { "from": "NODE-base44-admission", "to": "NODE-rule-productivity", "rel": "violates" },
+    { "from": "NODE-openai-scorecard", "to": "NODE-rule-productivity", "rel": "violates" }
+  ]
+}
