@@ -53,15 +53,14 @@ def run_ingester():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
     
+    # 0. Self-Update/Heartbeat (Pull latest logic from GitHub)
+    print("Cloud Heartbeat: Pulling latest logic...")
+    os.system(r"git -C C:\audits pull origin main --force")
+
     fetch_space_signals()
     fetch_deep_sea_signals()
     
-    # Trigger the brain ingestion
-    print("Triggering brain ingestion...")
-    # We'll call the existing ingest_to_brain script
-    os.system(r"python C:\Users\chipp\ingest_to_brain.py")
-    
-    # Sync to GitHub
+    # 3. Cloud Sync (Push latest signals and state)
     print("Triggering GitHub sync...")
     os.system(r"powershell -ExecutionPolicy Bypass -File C:\audits\logic\sync_sovereign.ps1")
 
