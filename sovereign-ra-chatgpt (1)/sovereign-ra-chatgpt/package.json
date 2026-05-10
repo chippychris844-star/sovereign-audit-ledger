@@ -1,0 +1,20 @@
+{
+  "name": "sovereign-ra-engine",
+  "version": "4.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Sovereign RA Engine - ChatGPT-style UI with RA Refinery, local audit, hosted LLM wiring, web/file tools and airgapped storage.",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check lib/*.mjs && node --check scripts/*.mjs && node --check test.mjs",
+    "test": "node test.mjs",
+    "connect-keys": "node scripts/connect_keys.mjs",
+    "scan-keys": "node scripts/connect_keys.mjs --scan"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
