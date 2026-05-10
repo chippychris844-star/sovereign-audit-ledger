@@ -1,0 +1,21 @@
+{
+  "capture_id": "",
+  "timestamp_utc": "",
+  "source": "NASA_API_SPACE",
+  "category": "Space",
+  "system": {
+    "cpu_load_pct": 0,
+    "disk_free_gb": 0
+  },
+  "data": {
+    "astronomical_events": [],
+    "satellite_count": 0,
+    "orbital_debris_density": 0.0,
+    "solar_activity_index": 0.0,
+    "near_earth_objects": []
+  },
+  "metadata": {
+    "node": "RA-Sovereign-01",
+    "protocol": "Canon 8.11"
+  }
+}
