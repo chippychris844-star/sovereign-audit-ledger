@@ -1,0 +1,231 @@
+================================================================================
+CROSS-DEVICE MONITORING & DEFENSIVE SETUP - QUICK START GUIDE
+================================================================================
+
+FOLDER CONTENTS:
+  • SETUP_MONITORING_PACKAGE.md     (Complete documentation)
+  • QUICK_START.txt                 (This file)
+  • ExportScheduledTasks.ps1        (Script 1: Task export)
+  • ConfigureFirewall.ps1           (Script 2: Firewall rules)
+  • DailyEvidenceExport.bat         (Script 3: Daily evidence collection)
+
+================================================================================
+TRANSFER TO SECONDARY LAPTOP
+================================================================================
+
+1. Copy entire folder to USB drive or network share
+2. Copy to secondary laptop at: C:\setup\
+3. Verify all files are present before proceeding
+
+================================================================================
+STEP-BY-STEP INSTALLATION (on secondary laptop)
+================================================================================
+
+PREREQUISITE: Run Command Prompt or PowerShell as Administrator
+
+STEP 1: Create Directory Structure (2 minutes)
+─────────────────────────────────────────────
+Run these commands in Command Prompt (as Administrator):
+
+  mkdir C:\setup
+  mkdir C:\Logs\Fiddler
+  mkdir C:\Logs\TaskScheduler
+  mkdir C:\Logs\Network
+  mkdir C:\Evidence
+
+Copy all script files to: C:\setup\
+
+
+STEP 2: Install Fiddler Classic (10 minutes)
+─────────────────────────────────────────────
+1. Open: https://www.telerik.com/fiddler/fiddler-classic
+2. Click "Download Fiddler Classic"
+3. Run installer as Administrator
+4. Accept defaults
+5. After install, open Fiddler and go to:
+   Tools → Options → HTTPS
+6. Check "Capture HTTPS CONNECTs"
+7. Check "Decrypt HTTPS traffic"
+8. Click "Actions" → "Trust Root Certificate" → "Yes"
+9. Close Fiddler
+
+
+STEP 3: Configure Firewall Rules (5 minutes)
+─────────────────────────────────────────────
+Open PowerShell as Administrator and run:
+
+  powershell -ExecutionPolicy Bypass -File "C:\setup\ConfigureFirewall.ps1"
+
+Wait for completion. You should see:
+  ✓ Created: Block-alibaba.com
+  ✓ Created: Block-alicdn.com
+  ✓ Created: Block-mmstat.com
+  (and more)
+
+
+STEP 4: Export Baseline Task List (5 minutes)
+──────────────────────────────────────────────
+Open PowerShell as Administrator and run:
+
+  powershell -ExecutionPolicy Bypass -File "C:\setup\ExportScheduledTasks.ps1"
+
+This creates:
+  C:\Logs\TaskScheduler\AllScheduledTasks_YYYYMMDD_HHMMSS.csv
+  C:\Logs\TaskScheduler\TaskExports_YYYYMMDD_HHMMSS\
+
+Save the CSV filename - you'll need this for law enforcement
+
+
+STEP 5: Schedule Daily Evidence Collection (5 minutes)
+───────────────────────────────────────────────────────
+1. Open Task Scheduler (search "Task Scheduler")
+2. Right-click "Task Scheduler Library" → "Create Basic Task"
+3. Name: "DailyEvidenceExport"
+4. Trigger: Daily at 21:00 (9 PM)
+5. Action: Start a program
+6. Program: C:\setup\DailyEvidenceExport.bat
+7. Finish
+
+
+STEP 6: Start Real-Time Monitoring (ongoing)
+──────────────────────────────────────────────
+Open Command Prompt as Administrator and run:
+
+  C:\setup\DailyEvidenceExport.bat
+
+This creates first daily evidence package in C:\Evidence\
+
+
+STEP 7: Open Fiddler
+───────────────────
+1. Open Fiddler Classic
+2. Go to Tools → Options → Logging
+3. Set path: C:\Logs\Fiddler\
+4. Enable "Log all sessions to file"
+5. Leave Fiddler open (minimize is fine)
+
+
+TOTAL SETUP TIME: ~30 minutes
+
+================================================================================
+DAILY ROUTINE (going forward)
+================================================================================
+
+1. Fiddler runs in background - monitors all network traffic
+2. Daily export runs automatically at 21:00
+3. Check C:\Evidence\ weekly for evidence packages
+4. Keep USB drive with evidence backups
+
+
+WHEN TO RUN MANUAL EXPORT:
+  • After any suspicious activity
+  • Before transferring evidence to law enforcement
+  • If you notice unusual network traffic
+
+To manually export:
+  Right-click C:\setup\DailyEvidenceExport.bat → Run as Administrator
+
+================================================================================
+WHAT YOU'LL COLLECT
+================================================================================
+
+DAILY (automatic):
+  ✓ All scheduled tasks (CSV + XML)
+  ✓ System event logs
+  ✓ Security event logs
+  ✓ Application logs
+  ✓ Network connection list (netstat)
+  ✓ Running processes list
+
+CONTINUOUS (Fiddler):
+  ✓ All network connections
+  ✓ HTTPS traffic (decrypted)
+  ✓ Blocked connection attempts
+  ✓ Destination IPs and domains
+  ✓ Request headers and response codes
+
+
+================================================================================
+EVIDENCE PRESERVATION
+================================================================================
+
+CRITICAL: Do NOT delete evidence files
+
+Location: C:\Evidence\
+Retention: Keep for minimum 6 months
+Backup: Copy to USB drive weekly
+
+When ready for law enforcement:
+1. Copy entire C:\Evidence\ folder to external drive
+2. Label drive with date and "FORENSIC EVIDENCE"
+3. Don't modify any files
+4. Deliver to AFP Cyber Crime or lawyer
+
+
+================================================================================
+LAW ENFORCEMENT HANDOVER
+================================================================================
+
+When you contact AFP / ACCC / Privacy Commissioner:
+
+Say: "I have forensic evidence of unauthorized scheduled tasks and network
+     traffic to overseas infrastructure. I've been collecting evidence through
+     system monitoring for [X days/weeks]. I'm ready to provide chain of custody
+     documentation."
+
+Provide:
+  1. External drive with C:\Evidence\ contents
+  2. CSV export: AllScheduledTasks_*.csv
+  3. Fiddler logs showing network traffic patterns
+  4. This QUICK_START.txt document (proves evidence collection procedure)
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+PowerShell execution policy error?
+  Run in PowerShell as Administrator:
+  Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+  Then re-run the script
+
+
+Fiddler not decrypting HTTPS?
+  1. Verify "Trust Root Certificate" was clicked
+  2. Check: Settings → Certificates in Windows Control Panel
+  3. Look for "Fiddler" certificate in "Trusted Root Certification Authorities"
+
+
+Firewall rules not appearing?
+  1. Check: Settings → Privacy & Security → Windows Firewall
+  2. Click "Allow an app through firewall"
+  3. Make sure you're running as Administrator
+
+
+Evidence folder not created?
+  Manually create: mkdir C:\Evidence\
+  Then run DailyEvidenceExport.bat again
+
+
+================================================================================
+CONTACT INFORMATION (Australia)
+================================================================================
+
+AUSTRALIAN FEDERAL POLICE - Cyber Crime:
+  Phone: 1300 773 772
+  Web: www.afp.gov.au
+
+ACCC (Consumer data practices):
+  Phone: 1300 302 502
+  Web: www.accc.gov.au
+
+OFFICE OF THE AUSTRALIAN INFORMATION COMMISSIONER:
+  Phone: (varies by state - see main documentation)
+  Web: www.oaic.gov.au
+
+================================================================================
+DOCUMENT VERSION: 1.0
+CREATED: 2026-05-05
+LAST UPDATED: 2026-05-05
+
+For detailed documentation, see: SETUP_MONITORING_PACKAGE.md
+================================================================================
