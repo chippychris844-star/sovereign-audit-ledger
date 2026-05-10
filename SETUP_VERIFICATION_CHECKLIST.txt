@@ -1,0 +1,243 @@
+================================================================================
+SETUP VERIFICATION CHECKLIST
+================================================================================
+
+Use this checklist after completing setup to verify all components are working.
+
+================================================================================
+PHASE 1: PRE-SETUP (on secondary laptop)
+================================================================================
+
+[ ] Windows 10 or Windows 11 (64-bit)
+[ ] Administrator access available
+[ ] Internet connection for downloading Fiddler
+[ ] 2GB free disk space minimum
+[ ] USB drive for transferring files (optional)
+[ ] All files copied to: C:\setup\
+
+Directory structure created:
+  [ ] C:\setup\
+  [ ] C:\Logs\Fiddler\
+  [ ] C:\Logs\TaskScheduler\
+  [ ] C:\Logs\Network\
+  [ ] C:\Evidence\
+
+Files in C:\setup\:
+  [ ] ExportScheduledTasks.ps1
+  [ ] ConfigureFirewall.ps1
+  [ ] DailyEvidenceExport.bat
+  [ ] SETUP_MONITORING_PACKAGE.md
+  [ ] QUICK_START.txt
+
+
+================================================================================
+PHASE 2: FIDDLER INSTALLATION
+================================================================================
+
+[ ] Fiddler Classic installed to: C:\Program Files\Fiddler Classic\
+[ ] Fiddler launches successfully (with Administrator privileges)
+[ ] HTTPS Decryption enabled:
+    [ ] Tools → Options → HTTPS
+    [ ] "Capture HTTPS CONNECTs" checked
+    [ ] "Decrypt HTTPS traffic" checked
+[ ] Root Certificate trusted:
+    [ ] Certificate installed in Windows
+    [ ] Verify in: Settings → "Manage certificates"
+[ ] Logging configured:
+    [ ] Tools → Options → Logging
+    [ ] Path set to: C:\Logs\Fiddler\
+    [ ] "Log all sessions to file" enabled
+[ ] Test capture:
+    [ ] Open web browser
+    [ ] Visit https://www.google.com
+    [ ] Confirm request appears in Fiddler
+
+
+================================================================================
+PHASE 3: FIREWALL CONFIGURATION
+================================================================================
+
+[ ] PowerShell script executed successfully:
+    powershell -ExecutionPolicy Bypass -File "C:\setup\ConfigureFirewall.ps1"
+
+[ ] Rules created (verify in Settings → Windows Firewall → Advanced):
+    [ ] Block-alibaba.com
+    [ ] Block-alicdn.com
+    [ ] Block-mmstat.com
+    [ ] Block-phoenix-gw.alibaba.com
+    [ ] Block-iflow.alibaba.com
+    [ ] Block-acs.aliyun.com
+
+[ ] All rules show:
+    [ ] Direction: Outbound
+    [ ] Action: Block
+    [ ] Enabled: Yes
+
+
+================================================================================
+PHASE 4: TASK SCHEDULER BASELINE
+================================================================================
+
+[ ] Export script completed successfully:
+    powershell -ExecutionPolicy Bypass -File "C:\setup\ExportScheduledTasks.ps1"
+
+[ ] Baseline files created:
+    [ ] C:\Logs\TaskScheduler\AllScheduledTasks_YYYYMMDD_HHMMSS.csv (exists)
+    [ ] C:\Logs\TaskScheduler\TaskExports_YYYYMMDD_HHMMSS\ (directory exists)
+    [ ] XML files exported for suspicious tasks
+
+[ ] CSV file can be opened:
+    [ ] Open with Excel
+    [ ] Contains at least 50+ task entries
+    [ ] Shows TaskName, TaskPath, State columns
+
+[ ] Suspicious tasks noted:
+    [ ] Document count of ResolutionAssurance* tasks
+    [ ] Document count of RegisterDevice* tasks
+    [ ] Document count of other suspicious patterns
+
+
+================================================================================
+PHASE 5: DAILY EVIDENCE EXPORT
+================================================================================
+
+[ ] Manual test run completed:
+    Right-click C:\setup\DailyEvidenceExport.bat → Run as Administrator
+
+[ ] Output created:
+    [ ] C:\Evidence\YYYYMMDD_HHMM\ folder exists
+    [ ] ScheduledTasks.csv exists (>100 KB)
+    [ ] System.evtx exists (>1 MB)
+    [ ] Security.evtx exists (>1 MB)
+    [ ] Application.evtx exists (>500 KB)
+    [ ] netstat_*.txt exists (>10 KB)
+    [ ] processes_*.txt exists (>50 KB)
+    [ ] CHAIN_OF_CUSTODY.txt exists
+
+[ ] Scheduled Task created:
+    [ ] Task Scheduler open
+    [ ] Task name: "DailyEvidenceExport"
+    [ ] Trigger: Daily at 21:00 (9 PM)
+    [ ] Action: C:\setup\DailyEvidenceExport.bat
+    [ ] Status: Enabled
+
+
+================================================================================
+PHASE 6: NETWORK MONITORING
+================================================================================
+
+[ ] Fiddler window:
+    [ ] Running and visible
+    [ ] "Capturing" indicator active
+    [ ] Session log shows current connections
+    [ ] Log files being written to: C:\Logs\Fiddler\
+
+[ ] Test blocked destination:
+    [ ] Try to visit https://alibaba.com in browser
+    [ ] Connection should fail with firewall block
+    [ ] Confirm in Event Viewer:
+        Settings → Privacy & Security → Windows Firewall → Advanced
+        → Inbound Rules / Outbound Rules (check for blocks)
+
+
+================================================================================
+PHASE 7: EVIDENCE COLLECTION
+================================================================================
+
+[ ] Evidence directory structure:
+    [ ] C:\Evidence\ contains dated folders
+    [ ] Each folder has clear timestamp
+    [ ] All required files present in each folder
+
+[ ] Storage capacity:
+    [ ] C:\Evidence\ has no errors
+    [ ] Free space remaining: At least 5 GB
+    [ ] Plan for weekly backup to external drive
+
+[ ] Chain of custody:
+    [ ] CHAIN_OF_CUSTODY.txt created for each export
+    [ ] Contains: Timestamp, computer name, user, files list
+
+
+================================================================================
+PHASE 8: PERSISTENCE & AUTOMATION
+================================================================================
+
+[ ] Fiddler startup:
+    [ ] Manually verify it restarts after reboot
+    [ ] Or add to: Settings → Apps → Startup
+
+[ ] Daily export:
+    [ ] Scheduled Task shows in Task Scheduler
+    [ ] Status: Enabled
+    [ ] Next run time: Tomorrow at 21:00
+    [ ] Test: Manually run task to verify it works
+
+[ ] Services running:
+    [ ] Open: Services (services.msc)
+    [ ] Verify no suspicious services added
+    [ ] Document baseline of running services
+
+
+================================================================================
+VERIFICATION SUMMARY
+================================================================================
+
+TOTAL ITEMS TO VERIFY: 80+
+ITEMS CHECKED: _____ / 80
+
+Overall Status:
+  [ ] READY - All systems operational
+  [ ] PARTIAL - Some components need attention (note below)
+  [ ] INCOMPLETE - Setup not finished (note below)
+
+Notes/Issues:
+_______________________________________________________________________
+_______________________________________________________________________
+_______________________________________________________________________
+
+
+================================================================================
+BEFORE CONTACTING LAW ENFORCEMENT
+================================================================================
+
+Verify these are present and working:
+
+1. [ ] At least 7 days of evidence collected in C:\Evidence\
+2. [ ] Fiddler logs showing all network activity
+3. [ ] Task Scheduler baseline CSV with timestamps
+4. [ ] Daily automated exports running successfully
+5. [ ] Firewall rules blocking suspicious destinations
+6. [ ] Chain of custody documentation complete
+
+Ready to provide to AFP / ACCC:
+  [ ] Copy of complete C:\Evidence\ folder
+  [ ] ScheduledTasks baseline CSV
+  [ ] Fiddler network logs (last 7 days minimum)
+  [ ] This verification checklist (proof of evidence collection method)
+  [ ] SETUP_MONITORING_PACKAGE.md (technical documentation)
+
+
+================================================================================
+CONTACT: AFP CYBER CRIME
+================================================================================
+
+When ready, contact:
+  Phone: 1300 773 772
+  Say: "I have forensic evidence of unauthorized system activity and network
+       traffic to overseas infrastructure. I've been collecting evidence for
+       [X days]. I have chain of custody documentation."
+
+Provide:
+  1. External drive with C:\Evidence\ contents
+  2. ScheduledTasks_baseline.csv
+  3. This verification checklist
+  4. SETUP_MONITORING_PACKAGE.md
+
+
+================================================================================
+DOCUMENT VERSION: 1.0
+CREATED: 2026-05-05
+
+Questions? See: SETUP_MONITORING_PACKAGE.md (Part 8)
+================================================================================
