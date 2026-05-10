@@ -1,0 +1,20 @@
+{
+  "name": "sovereign-ra-engine",
+  "version": "5.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Resolution AI - local-first verified assistant with RA Refinery, D-drive storage, attachments, voice and hosted/local model routing.",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check lib/*.mjs && node --check scripts/*.mjs && node --check test.mjs",
+    "test": "node test.mjs",
+    "connect-keys": "node scripts/connect_keys.mjs",
+    "scan-keys": "node scripts/connect_keys.mjs --scan"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
