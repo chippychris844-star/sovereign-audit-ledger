@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "nodes": [
+    {
+      "id": "NODE-RA-0001",
+      "type": "principle",
+      "status": "rooted",
+      "title": "Responsible AI requires record access",
+      "text": "Users must be able to verify AI interactions that affect billing, privacy, memory, tool use, support outcomes, complaints, or automated decisions.",
+      "tags": ["responsible-ai", "raw-records", "privacy", "verification"]
+    },
+    {
+      "id": "NODE-RA-0002",
+      "type": "rule",
+      "status": "rooted",
+      "title": "RA Refinery final authority",
+      "text": "Drafts from hosted tools or models are candidate material only. Final answers must pass claim extraction, evidence matching, contradiction scan, and completion-language checks.",
+      "tags": ["ra-refinery", "verification", "hosted-tools"]
+    },
+    {
+      "id": "NODE-RA-0003",
+      "type": "privacy-mode",
+      "status": "rooted",
+      "title": "Airgapped storage mode",
+      "text": "Airgapped mode stores graph nodes, chats, settings, and audit logs locally and makes no external model or web calls unless the user changes mode and configures a connector.",
+      "tags": ["airgap", "local-storage", "privacy"]
+    }
+  ]
+}
