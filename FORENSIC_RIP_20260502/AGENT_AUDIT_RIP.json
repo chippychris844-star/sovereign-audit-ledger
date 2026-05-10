@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": 1777727180009,
+    "audit": "Tool call requested: list (callId=1f63cc15-204c-4455-ad06-5f8bed57d8fe, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"path\":\"C:\\\\Users\\\\chipp\\\\.accio\\\\logs\",\"show_hidden\":true})"
+  },
+  {
+    "timestamp": 1777727180010,
+    "audit": "Tool call requested: list (callId=4776eb9e-6500-4e12-892b-d24aa5f04d76, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"path\":\"C:\\\\Users\\\\chipp\\\\.accio\\\\network\",\"show_hidden\":true})"
+  },
+  {
+    "timestamp": 1777727180010,
+    "audit": "Tool call requested: list (callId=95447a70-e186-4c3a-b85f-b9fc213d31d4, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"path\":\"C:\\\\Users\\\\chipp\\\\.accio\\\\accounts\\\\1757050675\\\\logs\",\"show_hidden\":true})"
+  },
+  {
+    "timestamp": 1777727192700,
+    "audit": "Tool call requested: read (callId=e7f4d411-02b6-4cb9-9a80-1ed1354163bc, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"file_path\":\"C:\\\\Users\\\\chipp\\\\.accio\\\\logs\\\\sdk.log\",\"limit\":100})"
+  },
+  {
+    "timestamp": 1777727192700,
+    "audit": "Tool call requested: read (callId=2b74aa77-87f1-4d77-b226-07352e7b9b05, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"file_path\":\"C:\\\\Users\\\\chipp\\\\.accio\\\\network\\\\startup-latest.json\"})"
+  },
+  {
+    "timestamp": 1777727204862,
+    "audit": "Tool call requested: write (callId=d481e8de-7862-4d19-9225-133719db5582, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"content\":\"\\nimport { readFile, writeFile, mkdir } from \\\"node:fs/promises\\\";\\nimport path from \\\"node:path\\\";\\n\\nconst LOG_FILE = \\\"C:/Users/chipp/.accio/logs/sdk.log\\\";\\nconst RIP_DIR = \\\"D:/audits/FORENSIC_RIP_20260502\\\";\\n\\nasync function forensicRip() {\\n    console.log(\\\"[RIP] Initiating Sovereign Forensic Rip...\\\");\\n\\n    try {\\n        await mkdir(RIP_DIR, { recursive: true });\\n\\n        const content = await readFile(LOG_FILE, \\\"utf8\\\");\\n        const lines = content.split(\\\"\\\\n\\\")....(truncated))"
+  },
+  {
+    "timestamp": 1777727213324,
+    "audit": "Tool call requested: bash (callId=eca12a31-509d-4fd2-bd0e-22ee5d9cc1d3, cwd=C:\\Users\\chipp\\.accio\\accounts\\1757050675\\agents\\DID-DB9653-56DB9653U1776429-3823-A2DEE6\\project/, args={\"command\":\"node sovereign_forensic_rip.mjs\",\"description\":\"Execute the Sovereign Forensic Rip to extract raw evidence from local logs.\"})"
+  }
+]
