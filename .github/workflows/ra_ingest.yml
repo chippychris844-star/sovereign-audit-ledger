@@ -1,0 +1,31 @@
+name: RA Sovereign Signal Ingestion
+on:
+  schedule:
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          token: ${{ secrets.RA_SOVEREIGN_PAT }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run Ingester (Cloud Mode)
+        run: python logic/ra_raw_ingester.py --cloud-mode
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Sovereign Heartbeat: Cloud Ingestion $(date -u)" || exit 0
+          git push
