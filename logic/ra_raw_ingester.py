@@ -5,9 +5,10 @@ import urllib.request
 from datetime import datetime
 
 # CONFIGURATION
-OUTPUT_DIR = r"C:\RealityWatch\hourly"
-TEMPLATE_DIR = r"C:\audits\core\templates"
-BRAIN_DB = r"C:\Users\chipp\sovereign_brain.sqlite"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_DIR = os.path.join(BASE_DIR, "extracts")
+TEMPLATE_DIR = os.path.join(BASE_DIR, "core", "templates")
+BRAIN_DB = os.path.join(os.path.expanduser("~"), "sovereign_brain.sqlite") # Default to home dir for local/cloud
 
 def fetch_space_signals():
     # Placeholder for actual API calls (NASA, etc.)
@@ -53,16 +54,11 @@ def run_ingester():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
     
-    # 0. Self-Update/Heartbeat (Pull latest logic from GitHub)
-    print("Cloud Heartbeat: Pulling latest logic...")
-    os.system(r"git -C C:\audits pull origin main --force")
-
+    # 0. Core Logic: Fetch and Save signals
     fetch_space_signals()
     fetch_deep_sea_signals()
     
-    # 3. Cloud Sync (Push latest signals and state)
-    print("Triggering GitHub sync...")
-    os.system(r"powershell -ExecutionPolicy Bypass -File C:\audits\logic\sync_sovereign.ps1")
+    print("Ingestion cycle complete.")
 
 if __name__ == "__main__":
     run_ingester()
