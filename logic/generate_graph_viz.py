@@ -16,10 +16,13 @@ def generate_mermaid():
     
     # Simple logic to link latest files to categories
     for f in files[:20]: # Limit for clarity
-        if "neo" in f:
-            mermaid += f"  Space --> {f.replace('.json','')}\n"
-        elif "bgp" in f:
-            mermaid += f"  Network --> {f.replace('.json','')}\n"
+        node_name = f.replace('.json','').replace('-','_')
+        if "space" in f or "neo" in f:
+            mermaid += f"  Space --> {node_name}\n"
+        elif "bgp" in f or "network" in f:
+            mermaid += f"  Network --> {node_name}\n"
+        elif "sea" in f or "deep_sea" in f:
+            mermaid += f"  Trade --> {node_name}\n"
             
     with open("graph.mermaid", "w") as f:
         f.write(mermaid)
