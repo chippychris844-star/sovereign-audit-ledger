@@ -1,0 +1,45 @@
+{
+  "capture_id": "03df21d3-fca4-45f8-850a-d1ce067e2f0f",
+  "timestamp_utc": "2026-05-13T08:02:44.566577Z",
+  "source": "RIPE_STAT_NETWORK",
+  "category": "Network",
+  "data": {
+    "first_seen": {
+      "prefix": "1.1.1.0/24",
+      "origin": "19855",
+      "time": "2001-11-14T00:00:00"
+    },
+    "last_seen": {
+      "prefix": "1.1.1.0/24",
+      "origin": "13335",
+      "time": "2026-05-13T00:00:00"
+    },
+    "visibility": {
+      "v4": {
+        "ris_peers_seeing": 324,
+        "total_ris_peers": 326
+      },
+      "v6": {
+        "ris_peers_seeing": 0,
+        "total_ris_peers": 0
+      }
+    },
+    "origins": [
+      {
+        "origin": 13335,
+        "route_objects": [
+          "APNIC",
+          "RADB"
+        ]
+      }
+    ],
+    "less_specifics": [],
+    "more_specifics": [],
+    "resource": "1.1.1.0/24",
+    "query_time": "2026-05-13T00:00:00"
+  },
+  "metadata": {
+    "node": "Cloud-Node",
+    "protocol": "Canon 8.11"
+  }
+}
