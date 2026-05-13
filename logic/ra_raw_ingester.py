@@ -2,7 +2,7 @@ import json
 import os
 import uuid
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 
 # CONFIGURATION
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +21,7 @@ def fetch_network_signals():
             if routing_data:
                 save_signal({
                     "capture_id": str(uuid.uuid4()),
-                    "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                     "source": "RIPE_STAT_NETWORK",
                     "category": "Network",
                     "data": routing_data,
@@ -41,7 +41,7 @@ def fetch_neo_data():
             if neo_data:
                 save_signal({
                     "capture_id": str(uuid.uuid4()),
-                    "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                     "source": "SPACE_WATCH_SWARM",
                     "category": "Space",
                     "data": neo_data,
@@ -60,7 +60,7 @@ def fetch_trade_signals():
             data = json.loads(response.read().decode('utf-8'))
             save_signal({
                 "capture_id": str(uuid.uuid4()),
-                "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 "source": "MARKET_VALUE_PROXY",
                 "category": "Trade",
                 "data": data,
@@ -72,16 +72,18 @@ def fetch_trade_signals():
 
 def fetch_security_signals():
     print("Executing Security/Disaster Watch (GDACS)...")
-    url = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/json"
+    # Updated to fixed GDACS Search API
+    url = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/json?eventtypes=EQ,FL,TC"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance-Sovereign/8.11'})
         with urllib.request.urlopen(req, timeout=20) as response:
             data = json.loads(response.read().decode('utf-8'))
-            events = data[:10] if isinstance(data, list) else []
+            # API might return list directly or wrapped
+            events = data if isinstance(data, list) else data.get('features', [])[:10]
             if events:
                 save_signal({
                     "capture_id": str(uuid.uuid4()),
-                    "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                     "source": "GDACS_SECURITY_MONITOR",
                     "category": "Security",
                     "data": events,
@@ -93,14 +95,12 @@ def fetch_security_signals():
 
 def fetch_maritime_signals():
     print("Executing Maritime/Deep Sea Watch (Open-Meteo)...")
-    # Coordinates for Mariana Trench (Deep Sea baseline)
     lat, lon = 11.35, 142.20
     url = f"https://marine-api.open-meteo.com/v1/marine?latitude={lat}&longitude={lon}&hourly=wave_height,wave_direction,wave_period"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance/8.11'})
         with urllib.request.urlopen(req, timeout=20) as response:
             data = json.loads(response.read().decode('utf-8'))
-            # Get latest hourly reading
             latest_idx = 0 
             signals = {
                 "location": {"lat": lat, "lon": lon, "name": "Mariana Trench"},
@@ -110,7 +110,7 @@ def fetch_maritime_signals():
             }
             save_signal({
                 "capture_id": str(uuid.uuid4()),
-                "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 "source": "OPEN_METEO_MARITIME",
                 "category": "Trade",
                 "data": signals,
@@ -119,10 +119,9 @@ def fetch_maritime_signals():
             print("Captured Deep Sea/Maritime signals.")
     except Exception as e:
         print(f"Maritime Watch Failed: {e}")
-        # Fallback to mock
         save_signal({
             "capture_id": str(uuid.uuid4()),
-            "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+            "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "source": "DEEP_SEA_MONITOR_FALLBACK",
             "category": "Trade",
             "data": {"ocean_temp_c": 3.8, "sea_level_m": 0.45},
