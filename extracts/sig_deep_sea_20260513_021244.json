@@ -1,0 +1,21 @@
+{
+  "capture_id": "647e67b0-3b8f-4c62-9999-c1da2648c75d",
+  "timestamp_utc": "2026-05-13T02:12:44.148959Z",
+  "source": "NOAA_API_DEEP_SEA",
+  "category": "Deep Sea",
+  "system": {
+    "cpu_load_pct": 0,
+    "disk_free_gb": 0
+  },
+  "data": {
+    "ocean_temp_c": 3.8,
+    "sea_level_m": 0.45,
+    "marine_traffic_density": 0.0,
+    "deep_sea_pressure_psi": 0.0,
+    "benthic_anomalies": []
+  },
+  "metadata": {
+    "node": "RA-Sovereign-01",
+    "protocol": "Canon 8.11"
+  }
+}

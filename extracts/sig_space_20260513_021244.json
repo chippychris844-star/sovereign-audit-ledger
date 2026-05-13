@@ -1,0 +1,24 @@
+{
+  "capture_id": "64813b58-0e19-4269-8fb5-792cfd63ae05",
+  "timestamp_utc": "2026-05-13T02:12:44.148737Z",
+  "source": "NASA_API_SPACE",
+  "category": "Space",
+  "system": {
+    "cpu_load_pct": 0,
+    "disk_free_gb": 0
+  },
+  "data": {
+    "astronomical_events": [],
+    "satellite_count": 0,
+    "orbital_debris_density": 0.0,
+    "solar_activity_index": 4.2,
+    "near_earth_objects": [
+      "2024-XA1",
+      "2024-BY5"
+    ]
+  },
+  "metadata": {
+    "node": "RA-Sovereign-01",
+    "protocol": "Canon 8.11"
+  }
+}
