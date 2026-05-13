@@ -1,0 +1,14 @@
+{
+  "capture_id": "e95b0993-f28b-49ca-aab8-9510ae7433cb",
+  "timestamp_utc": "2026-05-13T06:34:10.901096Z",
+  "source": "DEEP_SEA_MONITOR",
+  "category": "Trade",
+  "data": {
+    "ocean_temp_c": 3.8,
+    "sea_level_m": 0.45
+  },
+  "metadata": {
+    "node": "Local-Node",
+    "protocol": "Canon 8.11"
+  }
+}
