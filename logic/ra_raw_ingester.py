@@ -8,56 +8,74 @@ from datetime import datetime
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTPUT_DIR = os.path.join(BASE_DIR, "extracts")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "core", "templates")
-BRAIN_DB = os.path.join(os.path.expanduser("~"), "sovereign_brain.sqlite") # Default to home dir for local/cloud
+BRAIN_DB = os.path.join(os.path.expanduser("~"), "sovereign_brain.sqlite")
 
-def fetch_space_signals():
-    # Placeholder for actual API calls (NASA, etc.)
-    # For now, we simulate the ingestion of baseline space data
-    # In a real scenario, we'd use NASA's APOD or NeoWs API
-    print("Fetching Space signals...")
-    template_path = os.path.join(TEMPLATE_DIR, "space-signal-template.json")
-    with open(template_path, 'r') as f:
-        signal = json.load(f)
-    
-    signal["capture_id"] = str(uuid.uuid4())
-    signal["timestamp_utc"] = datetime.utcnow().isoformat() + "Z"
-    
-    # Simulated data points
-    signal["data"]["solar_activity_index"] = 4.2 # Mock value
-    signal["data"]["near_earth_objects"] = ["2024-XA1", "2024-BY5"]
-    
-    save_signal(signal, "space")
+def fetch_bgp_anomalies():
+    print("Executing BGP Hunt...")
+    url = "https://api.bgpstream.com/v1/event"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance-Sovereign/8.11'})
+        with urllib.request.urlopen(req, timeout=20) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            events = data.get('data', {}).get('events', [])[:10]
+            if events:
+                save_signal({
+                    "capture_id": str(uuid.uuid4()),
+                    "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                    "source": "BGP_HUNT_SWARM",
+                    "category": "Network",
+                    "data": events,
+                    "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
+                }, "bgp")
+    except Exception as e:
+        print(f"BGP Hunt Failed: {e}")
 
-def fetch_deep_sea_signals():
-    print("Fetching Deep Sea signals...")
-    template_path = os.path.join(TEMPLATE_DIR, "deep-sea-signal-template.json")
-    with open(template_path, 'r') as f:
-        signal = json.load(f)
-    
-    signal["capture_id"] = str(uuid.uuid4())
-    signal["timestamp_utc"] = datetime.utcnow().isoformat() + "Z"
-    
-    # Simulated data points
-    signal["data"]["ocean_temp_c"] = 3.8 # Mock value
-    signal["data"]["sea_level_m"] = 0.45 # Mock value
-    
-    save_signal(signal, "deep_sea")
+def fetch_neo_data():
+    print("Executing Space Watch (NEO)...")
+    url = "https://api.nasa.gov/neo/rest/v1/feed/today?detailed=false&api_key=DEMO_KEY"
+    try:
+        with urllib.request.urlopen(url, timeout=20) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            neo_data = data.get('near_earth_objects', {})
+            if neo_data:
+                save_signal({
+                    "capture_id": str(uuid.uuid4()),
+                    "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                    "source": "SPACE_WATCH_SWARM",
+                    "category": "Space",
+                    "data": neo_data,
+                    "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
+                }, "neo")
+    except Exception as e:
+        print(f"Space Watch Failed: {e}")
+
+def fetch_mock_deep_sea():
+    # Placeholder for maritime/deep sea signals
+    print("Fetching Mock Deep Sea signals...")
+    save_signal({
+        "capture_id": str(uuid.uuid4()),
+        "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+        "source": "DEEP_SEA_MONITOR",
+        "category": "Trade",
+        "data": {"ocean_temp_c": 3.8, "sea_level_m": 0.45},
+        "metadata": {"node": "Local-Node", "protocol": "Canon 8.11"}
+    }, "deep_sea")
 
 def save_signal(signal, prefix):
-    filename = f"sig_{prefix}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    if not os.path.exists(OUTPUT_DIR):
+        os.makedirs(OUTPUT_DIR)
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = f"sig_{prefix}_{timestamp}.json"
     filepath = os.path.join(OUTPUT_DIR, filename)
     with open(filepath, 'w') as f:
         json.dump(signal, f, indent=2)
     print(f"Saved signal to {filepath}")
 
 def run_ingester():
-    if not os.path.exists(OUTPUT_DIR):
-        os.makedirs(OUTPUT_DIR)
-    
-    # 0. Core Logic: Fetch and Save signals
-    fetch_space_signals()
-    fetch_deep_sea_signals()
-    
+    print(f"Starting Ingestion Cycle (Domain: Network, Space, Trade)")
+    fetch_bgp_anomalies()
+    fetch_neo_data()
+    fetch_mock_deep_sea()
     print("Ingestion cycle complete.")
 
 if __name__ == "__main__":
