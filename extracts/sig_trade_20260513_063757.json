@@ -1,0 +1,21 @@
+{
+  "capture_id": "2b9bb85e-9ea3-48c8-bc7f-0032d16657c8",
+  "timestamp_utc": "2026-05-13T06:37:57.944867Z",
+  "source": "MARKET_VALUE_PROXY",
+  "category": "Trade",
+  "data": {
+    "bitcoin": {
+      "usd": 81048
+    },
+    "ethereum": {
+      "usd": 2302.12
+    },
+    "gold": {
+      "usd": 2.327e-05
+    }
+  },
+  "metadata": {
+    "node": "Cloud-Node",
+    "protocol": "Canon 8.11"
+  }
+}
