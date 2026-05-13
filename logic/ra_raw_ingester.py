@@ -10,27 +10,27 @@ OUTPUT_DIR = os.path.join(BASE_DIR, "extracts")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "core", "templates")
 BRAIN_DB = os.path.join(os.path.expanduser("~"), "sovereign_brain.sqlite")
 
-def fetch_bgp_anomalies():
-    print("Executing BGP Hunt...")
-    # Updated to CAIDA BGPStream V2 API
-    url = "https://api.bgpstream.caida.org/v2/events"
+def fetch_network_signals():
+    print("Executing Network Watch (RIPE Stat)...")
+    # Using RIPE Stat for reliable network signals
+    url = "https://stat.ripe.net/data/routing-status/data.json?resource=1.1.1.1"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance-Sovereign/8.11'})
         with urllib.request.urlopen(req, timeout=20) as response:
             data = json.loads(response.read().decode('utf-8'))
-            events = data.get('data', {}).get('events', [])[:10]
-            if events:
+            routing_data = data.get('data', {})
+            if routing_data:
                 save_signal({
                     "capture_id": str(uuid.uuid4()),
                     "timestamp_utc": datetime.utcnow().isoformat() + "Z",
-                    "source": "BGP_HUNT_SWARM",
+                    "source": "RIPE_STAT_NETWORK",
                     "category": "Network",
-                    "data": events,
+                    "data": routing_data,
                     "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
-                }, "bgp")
-                print(f"Captured {len(events)} BGP events.")
+                }, "network")
+                print("Captured Network routing data.")
     except Exception as e:
-        print(f"BGP Hunt Failed: {e}")
+        print(f"Network Watch Failed: {e}")
 
 def fetch_neo_data():
     print("Executing Space Watch (NEO)...")
@@ -95,7 +95,7 @@ def save_signal(signal, prefix):
 
 def run_ingester():
     print(f"Starting Ingestion Cycle (Network, Space, Trade)")
-    fetch_bgp_anomalies()
+    fetch_network_signals()
     fetch_neo_data()
     fetch_trade_signals()
     fetch_mock_deep_sea()
