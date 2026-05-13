@@ -8,6 +8,8 @@ graph TD
   ROOT --> Network
   ROOT --> Trade
   ROOT --> Forensic[Forensic Evidence]
+  Forensic --> LegacyNodes["2,107 Legacy Nodes"]
+  Forensic --> LegacyEdges["142,512 Legacy Edges"]
   Forensic --> NODE_entity_001["The entity behind Resolution Assurance is Christop..."]
   Forensic --> NODE_framework_001["Resolution Assurance Waste Tax Audit Methodology â..."]
   Forensic --> NODE_rule_productivity["Per HWI-X Â§3, an AI system is productive only whe..."]
