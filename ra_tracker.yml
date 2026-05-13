@@ -1,7 +1,7 @@
 name: Sovereign Extinction Tracker
 on:
   schedule:
-    - cron: '0 0 * * 0' # Every Sunday at Midnight UTC
+    - cron: '0 0,12 * * *' # Every 12 hours (Midnight and Noon UTC)
   workflow_dispatch:
 
 jobs:
