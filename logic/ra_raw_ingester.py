@@ -12,7 +12,8 @@ BRAIN_DB = os.path.join(os.path.expanduser("~"), "sovereign_brain.sqlite")
 
 def fetch_bgp_anomalies():
     print("Executing BGP Hunt...")
-    url = "https://api.bgpstream.com/v1/event"
+    # Updated to CAIDA BGPStream V2 API
+    url = "https://api.bgpstream.caida.org/v2/events"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance-Sovereign/8.11'})
         with urllib.request.urlopen(req, timeout=20) as response:
@@ -27,6 +28,7 @@ def fetch_bgp_anomalies():
                     "data": events,
                     "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
                 }, "bgp")
+                print(f"Captured {len(events)} BGP events.")
     except Exception as e:
         print(f"BGP Hunt Failed: {e}")
 
@@ -46,11 +48,31 @@ def fetch_neo_data():
                     "data": neo_data,
                     "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
                 }, "neo")
+                print("Captured NEO data.")
     except Exception as e:
         print(f"Space Watch Failed: {e}")
 
+def fetch_trade_signals():
+    print("Fetching Trade/Value signals...")
+    # Using CoinGecko as a proxy for high-velocity value signals
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold&vs_currencies=usd"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance/8.11'})
+        with urllib.request.urlopen(req, timeout=20) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            save_signal({
+                "capture_id": str(uuid.uuid4()),
+                "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                "source": "MARKET_VALUE_PROXY",
+                "category": "Trade",
+                "data": data,
+                "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
+            }, "trade")
+            print("Captured Trade/Value signals.")
+    except Exception as e:
+        print(f"Trade Fetch Failed: {e}")
+
 def fetch_mock_deep_sea():
-    # Placeholder for maritime/deep sea signals
     print("Fetching Mock Deep Sea signals...")
     save_signal({
         "capture_id": str(uuid.uuid4()),
@@ -72,9 +94,10 @@ def save_signal(signal, prefix):
     print(f"Saved signal to {filepath}")
 
 def run_ingester():
-    print(f"Starting Ingestion Cycle (Domain: Network, Space, Trade)")
+    print(f"Starting Ingestion Cycle (Network, Space, Trade)")
     fetch_bgp_anomalies()
     fetch_neo_data()
+    fetch_trade_signals()
     fetch_mock_deep_sea()
     print("Ingestion cycle complete.")
 
