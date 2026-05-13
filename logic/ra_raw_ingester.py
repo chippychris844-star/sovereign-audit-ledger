@@ -12,7 +12,6 @@ BRAIN_DB = os.path.join(os.path.expanduser("~"), "sovereign_brain.sqlite")
 
 def fetch_network_signals():
     print("Executing Network Watch (RIPE Stat)...")
-    # Using RIPE Stat for reliable network signals
     url = "https://stat.ripe.net/data/routing-status/data.json?resource=1.1.1.1"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance-Sovereign/8.11'})
@@ -54,7 +53,6 @@ def fetch_neo_data():
 
 def fetch_trade_signals():
     print("Fetching Trade/Value signals...")
-    # Using CoinGecko as a proxy for high-velocity value signals
     url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold&vs_currencies=usd"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance/8.11'})
@@ -71,6 +69,28 @@ def fetch_trade_signals():
             print("Captured Trade/Value signals.")
     except Exception as e:
         print(f"Trade Fetch Failed: {e}")
+
+def fetch_security_signals():
+    print("Executing Security/Disaster Watch (GDACS)...")
+    # Using GDACS for global disaster/security events
+    url = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/json"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'ResolutionAssurance-Sovereign/8.11'})
+        with urllib.request.urlopen(req, timeout=20) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            events = data[:10] if isinstance(data, list) else []
+            if events:
+                save_signal({
+                    "capture_id": str(uuid.uuid4()),
+                    "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+                    "source": "GDACS_SECURITY_MONITOR",
+                    "category": "Security",
+                    "data": events,
+                    "metadata": {"node": "Cloud-Node", "protocol": "Canon 8.11"}
+                }, "security")
+                print(f"Captured {len(events)} Security/Disaster events.")
+    except Exception as e:
+        print(f"Security Watch Failed: {e}")
 
 def fetch_mock_deep_sea():
     print("Fetching Mock Deep Sea signals...")
@@ -94,10 +114,11 @@ def save_signal(signal, prefix):
     print(f"Saved signal to {filepath}")
 
 def run_ingester():
-    print(f"Starting Ingestion Cycle (Network, Space, Trade)")
+    print(f"Starting Ingestion Cycle (Network, Space, Trade, Security)")
     fetch_network_signals()
     fetch_neo_data()
     fetch_trade_signals()
+    fetch_security_signals()
     fetch_mock_deep_sea()
     print("Ingestion cycle complete.")
 
