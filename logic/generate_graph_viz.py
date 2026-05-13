@@ -21,7 +21,7 @@ def generate_mermaid():
             mermaid += f"  Space --> {node_name}\n"
         elif "bgp" in f or "network" in f:
             mermaid += f"  Network --> {node_name}\n"
-        elif "sea" in f or "deep_sea" in f:
+        elif "sea" in f or "deep_sea" in f or "trade" in f:
             mermaid += f"  Trade --> {node_name}\n"
             
     with open("graph.mermaid", "w") as f:
