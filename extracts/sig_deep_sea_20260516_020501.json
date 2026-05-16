@@ -1,0 +1,20 @@
+{
+  "capture_id": "8379be0d-7a87-47dc-8666-88a48aca72df",
+  "timestamp_utc": "2026-05-16T02:05:01.457262Z",
+  "source": "OPEN_METEO_MARITIME",
+  "category": "Trade",
+  "data": {
+    "location": {
+      "lat": 11.35,
+      "lon": 142.2,
+      "name": "Mariana Trench"
+    },
+    "wave_height_m": 1.26,
+    "wave_period_s": 6.2,
+    "wave_direction": 83
+  },
+  "metadata": {
+    "node": "Cloud-Node",
+    "protocol": "Canon 8.11"
+  }
+}
